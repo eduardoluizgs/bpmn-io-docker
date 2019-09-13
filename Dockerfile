@@ -15,9 +15,9 @@ RUN npm install -g http-server \
     && npm run build \
     && cp -r ./public/* /home/app/
 
-FROM node
+FROM nginx:1.13.9-alpine
 
-WORKDIR /home/app
+COPY --from=node /tmp/bpmn-js/public /usr/share/nginx/html
 
-EXPOSE 8080
-CMD http-server
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
